@@ -1,0 +1,8 @@
+.header{
+    background:transparent
+}
+
+.header a.nav-link{
+    color:#fff;
+    text-transform: uppercase;
+}

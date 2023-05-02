@@ -1,8 +1,12 @@
-import HomeSlider from "../../components/HomeSlider";
+import ClientSlider from "../../components/frontend/ClientSlider";
+import HomeSlider from "../../components/frontend/HomeSlider";
 
 const Home = ()=>{
     return(
-        <HomeSlider/>
+        <>
+            <HomeSlider/>
+            <ClientSlider/>
+        </>
     )
 }
 

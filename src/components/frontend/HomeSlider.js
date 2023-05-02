@@ -1,6 +1,6 @@
 import { Carousel } from 'react-bootstrap';
-import slideOne from '../assets/imgs/slide-1.jpg'
-import slideTwo from '../assets/imgs/slide-2.jpg'
+import slideOne from '../../assets/imgs/slide-1.jpg'
+import slideTwo from '../../assets/imgs/slide-2.jpg'
 
 const HomeSlider = ()=>{
     return (
@@ -12,8 +12,9 @@ const HomeSlider = ()=>{
                 alt="First slide"
                 />
                 <Carousel.Caption>
-                    <h3>First slide label</h3>
-                    <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+                    <p className="m-0">Don't Miss</p>
+                    <h3>Mystery Deals</h3>
+                    <p className="m-0">Online Only</p>
                 </Carousel.Caption>
             </Carousel.Item>
             <Carousel.Item>
@@ -23,8 +24,9 @@ const HomeSlider = ()=>{
                 alt="Second slide"
                 />
                 <Carousel.Caption>
-                    <h3>First slide label</h3>
-                    <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+                    <p className="m-0">Limited time only</p>
+                    <h3>Treat your self</h3>
+                    <p className="m-0">Up to 50% off</p>
                 </Carousel.Caption>
             </Carousel.Item>
         </Carousel>

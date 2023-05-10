@@ -1,24 +1,61 @@
+import axios from 'axios';
+import { useState } from "react";
+import { ToastContainer, toast } from 'react-toastify';
 import { Row, Container, Col, Card, Form, Button } from "react-bootstrap";
 
 const Login = ()=>{
+    const [data, setData] = useState({
+        email:'',
+        password:''
+    });
+
+    const handleChange = (e)=>{
+        let value = e.target.value;
+        let name = e.target.name;
+        setData({
+            ...data,
+            [name]:value
+        })
+    }
+
+    const handleSubmit = (e)=>{
+        e.preventDefault();
+        axios.post(`${process.env.REACT_APP_API_URL}login`,data,{
+            withCredentials: true,
+            credentials: 'include',
+            headers:{
+                'Content-Type': 'application/json',
+            },
+        }).then((res)=>{
+            console.log(res);
+        }).catch((err)=>{
+            if(err.response.data.success===false){
+                if(err.response.data.error!=undefined){
+                    toast.error(err.response.data.error);
+                }
+            }
+        })
+    }
+
     return(
         <Container>
             <Row>
+            <ToastContainer autoClose={10000} theme="dark" closeOnClick newestOnTop={true}/>
                 <Col xxl={5} xl={5} lg={5} md={5} sm={6} xs={11} className="m-auto py-4">
                     <Card className="shadow border-0">
                         <Card.Body className="p-4">
                             <Card.Title className="mb-3 text-capitalize">login here</Card.Title>
-                            <Form method="post">
+                            <Form onSubmit={handleSubmit}>
                                 <Form.Group className="mb-3">
                                     <Form.Label>Name</Form.Label>
-                                    <Form.Control type='text' name="email" placeholder="Ener Email"/>
+                                    <Form.Control type='text' name="email" placeholder="Ener Email" value={data.email} onChange={handleChange}/>
                                 </Form.Group>
                                 <Form.Group className="mb-3">
                                     <Form.Label>Password</Form.Label>
-                                    <Form.Control type='password' name="password" placeholder="Ener Password"/>
+                                    <Form.Control type='password' name="password" placeholder="Ener Password" value={data.password} onChange={handleChange}/>
                                 </Form.Group>
                                 <Form.Group>
-                                    <Button className="btn btn-success rounded-0 text-uppercase">login</Button>
+                                    <Button type="submit" className="btn btn-success rounded-0 text-uppercase">login</Button>
                                 </Form.Group>
                             </Form>
                         </Card.Body>

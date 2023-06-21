@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
-import { Row, Container, Col, Card, Form, Button, Alert } from "react-bootstrap";
+import { Row, Container, Col, Card, Form, Button } from "react-bootstrap";
 
 const Signup = ()=>{
     const [error, setError] = useState({
@@ -98,14 +98,14 @@ const Signup = ()=>{
             }
         }).catch((err)=>{
             if(err.response.data.success===false){
-                if(err.response.data.validation!=undefined){
+                if(err.response.data.validation!==undefined){
                     if(Object.values(err.response.data.validation).length>0){
                         let errors = err.response.data.validation;
                         setError(errors);
                     }
                 }
 
-                if(err.response.data.error!=undefined){
+                if(err.response.data.error!==undefined){
                     toast.error(err.response.data.error);
                 }
             }
@@ -127,7 +127,7 @@ const Signup = ()=>{
                                         <Form.Control type='text' name="name" placeholder="Ener Name" onChange={handleChange} value={data?.name}/>
                                         {
                                             error.name && 
-                                            <Alert className='px-2 py-1 mt-2 mb-0' variant="danger">{error.name}</Alert> 
+                                            <Form.Text className='mt-2 mb-0 text-danger'>{error.name}</Form.Text> 
                                         }
                                     </Form.Group>
                                     <Form.Group className="mb-3 col-xxl-6 col-xl-6 col-md-6 col-lg-6 col-sm-12">
@@ -135,7 +135,7 @@ const Signup = ()=>{
                                         <Form.Control type='email' name="email" placeholder="Ener Email" onChange={handleChange} value={data.email}/>
                                         {
                                             error.email && 
-                                            <Alert className='px-2 py-1 mt-2 mb-0' variant="danger">{error.email}</Alert> 
+                                            <Form.Text className='mt-2 mb-0 text-danger'>{error.email}</Form.Text> 
                                         }
                                     </Form.Group>
                                     <Form.Group className="mb-3 col-xxl-6 col-xl-6 col-md-6 col-lg-6 col-sm-12">
@@ -143,7 +143,7 @@ const Signup = ()=>{
                                         <Form.Control type='number' name="phone" placeholder="Ener Phone" onChange={handleChange}/>
                                         {
                                             error.phone && 
-                                            <Alert className='px-2 py-1 mt-2 mb-0' variant="danger">{error.phone}</Alert> 
+                                            <Form.Text className='mt-2 mb-0 text-danger'>{error.phone}</Form.Text> 
                                         }
                                     </Form.Group>
                                     <Form.Group className="mb-3 col-xxl-6 col-xl-6 col-md-6 col-lg-6 col-sm-12">
@@ -159,7 +159,7 @@ const Signup = ()=>{
                                         </Form.Select>
                                         {
                                             error.country && 
-                                            <Alert className='px-2 py-1 mt-2 mb-0' variant="danger">{error.country}</Alert> 
+                                            <Form.Text className='mt-2 mb-0 text-danger'>{error.country}</Form.Text> 
                                         }
                                     </Form.Group>
                                     <Form.Group className="mb-3 col-xxl-6 col-xl-6 col-md-6 col-lg-6 col-sm-12">
@@ -175,7 +175,7 @@ const Signup = ()=>{
                                         </Form.Select>
                                         {
                                             error.state && 
-                                            <Alert className='px-2 py-1 mt-2 mb-0' variant="danger">{error.state}</Alert> 
+                                            <Form.Text className='mt-2 mb-0 text-danger'>{error.state}</Form.Text> 
                                         }
                                     </Form.Group>
                                     <Form.Group className="mb-3 col-xxl-6 col-xl-6 col-md-6 col-lg-6 col-sm-12">
@@ -191,7 +191,7 @@ const Signup = ()=>{
                                         </Form.Select>
                                         {
                                             error.city && 
-                                            <Alert className='px-2 py-1 mt-2 mb-0' variant="danger">{error.city}</Alert> 
+                                            <Form.Text className='mt-2 mb-0 text-danger'>{error.city}</Form.Text> 
                                         }
                                     </Form.Group>
                                     <Form.Group className="mb-3 col-xxl-6 col-xl-6 col-md-6 col-lg-6 col-sm-12">
@@ -199,7 +199,7 @@ const Signup = ()=>{
                                         <Form.Control type='password' name="password" placeholder="Ener Password" onChange={handleChange} value={data.password}/>
                                         {
                                             error.password && 
-                                            <Alert className='px-2 py-1 mt-2 mb-0' variant="danger">{error.password}</Alert> 
+                                            <Form.Text className='mt-2 mb-0 text-danger'>{error.password}</Form.Text> 
                                         }
                                     </Form.Group>
                                     <Form.Group className="mb-3 col-xxl-6 col-xl-6 col-md-6 col-lg-6 col-sm-12">

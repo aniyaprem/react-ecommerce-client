@@ -1,9 +1,14 @@
-import axios from 'axios';
-import { useState } from "react";
-import { ToastContainer, toast } from 'react-toastify';
 import { Row, Container, Col, Card, Form, Button } from "react-bootstrap";
+import { ToastContainer, toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { Cookies } from 'react-cookie';
+import axios from 'axios';
 
 const Login = ()=>{
+    const cookie = new Cookies();
+    const navigate = useNavigate();
+    // const [cookies, setCookie] = useCookies(['reactauth']);
     const [data, setData] = useState({
         email:'',
         password:''
@@ -27,15 +32,25 @@ const Login = ()=>{
                 'Content-Type': 'application/json',
             },
         }).then((res)=>{
-            console.log(res);
+            if(res.data.success === true){
+                toast.error(res.data.message);
+                navigate('/admin');
+            }
         }).catch((err)=>{
             if(err.response.data.success===false){
-                if(err.response.data.error!=undefined){
+                if(err.response.data.error!==undefined){
                     toast.error(err.response.data.error);
                 }
             }
         })
     }
+
+    useEffect(()=>{
+        const checkAuth = ()=>{
+            cookie.get('auth') ? navigate('/admin') : navigate('/login');
+        }
+        checkAuth();
+    },[navigate])
 
     return(
         <Container>
@@ -47,7 +62,7 @@ const Login = ()=>{
                             <Card.Title className="mb-3 text-capitalize">login here</Card.Title>
                             <Form onSubmit={handleSubmit}>
                                 <Form.Group className="mb-3">
-                                    <Form.Label>Name</Form.Label>
+                                    <Form.Label>Email</Form.Label>
                                     <Form.Control type='text' name="email" placeholder="Ener Email" value={data.email} onChange={handleChange}/>
                                 </Form.Group>
                                 <Form.Group className="mb-3">

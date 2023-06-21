@@ -1,0 +1,7 @@
+server check with port : ufw status
+server add  with port : ufw allwo 5000
+server add  with port : ufw allow 5000/tcp
+ufw allow 5000/udp
+lsof -i tcp:3000
+lsof -i tcp:5000
+a2ensite file enable kr deta 

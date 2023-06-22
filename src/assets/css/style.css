@@ -107,3 +107,16 @@ input.form-control:focus{
 table tr td .btn{
     padding: 2px 6px;
 }
+
+.ajax-loader{
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    z-index: 9;
+    bottom: 0px;
+    display: flex;
+    position: fixed;
+    align-items: center;
+    justify-content: center;
+    background: #1717178c;
+}

@@ -29,7 +29,7 @@ const CategoryList = ()=>{
             dangerMode: true,
         }).then(willDelete => {
             if (willDelete) {
-                axios.get(`${process.env.REACT_APP_API_URL}category-delete/${id}`)
+                axios.delete(`${process.env.REACT_APP_API_URL}category-delete/${id}`)
                 .then((res)=>{
                     console.log(res);
                     if(res.data.success === true){
@@ -83,7 +83,7 @@ const CategoryList = ()=>{
                                                 </td>
                                                 <td className="text-capitalize">{val.name}</td>
                                                 <td className="text-capitalize">
-                                                    <Link to="/" className="btn btn-info bt-md text-white"><FiEdit2/></Link>
+                                                    <Link to={`/admin/edit-category/${val._id}`} className="btn btn-info bt-md text-white"><FiEdit2/></Link>
                                                     <button type="button" className="btn-danger btn ms-2" onClick={()=>{deleteCategory(val._id)}}><FiTrash2/></button>  
                                                 </td>
                                             </tr>

@@ -1,6 +1,6 @@
-import { ToastContainer, toast } from 'react-toastify';
 import { ThreeCircles } from  'react-loader-spinner';
 import { Table, Card, Alert } from "react-bootstrap";
+import { ToastContainer } from 'react-toastify';
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";

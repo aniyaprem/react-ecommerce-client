@@ -79,7 +79,7 @@ const CategoryList = ()=>{
                                             <tr key={index}>
                                                 <td>{index+1}</td>
                                                 <td>
-                                                    <img src={`${process.env.REACT_APP_FILE_URL}/uploads/${val.photo}`} alt="img" style={{width:'30px', height:'30px'}} className="rounded-pill"/>
+                                                    <img src={`${process.env.REACT_APP_FILE_URL}/uploads/category/${val.photo}`} alt="img" style={{width:'30px', height:'30px'}} className="rounded-pill"/>
                                                 </td>
                                                 <td className="text-capitalize">{val.name}</td>
                                                 <td className="text-capitalize">

@@ -1,7 +1,8 @@
 import { ThreeCircles } from  'react-loader-spinner';
 import { Table, Card, Alert } from "react-bootstrap";
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import { useEffect, useState } from "react";
+import { FiTrash2 } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
@@ -14,6 +15,18 @@ const Products = ()=>{
         .then((res)=>{
             if(res.data.success === true){
                 setProducts(res.data.data);
+            }
+        }).catch((err)=>{
+            console.log(err);
+        })
+    }
+
+    const deleteProduct = (id) => {
+        axios.delete(`${process.env.REACT_APP_API_URL}product-delete/${id}`)
+        .then((res)=>{
+            if(res.data.success === true){
+                toast(res.data.message);
+                allProducts();
             }
         }).catch((err)=>{
             console.log(err);
@@ -56,9 +69,10 @@ const Products = ()=>{
                             <thead>
                                 <tr>
                                     <th>#</th>
+                                    <th>Image</th>
                                     <th>Name</th>
                                     <th>Price</th>
-                                    <th>company</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -67,9 +81,14 @@ const Products = ()=>{
                                         return (
                                             <tr key={index}>
                                                 <td>{index+1}</td>
+                                                <td>
+                                                    <img src={`${process.env.REACT_APP_FILE_URL}/uploads/products/${item.image}`} alt="img" style={{width:'30px', height:'30px'}} className="rounded-pill"/>
+                                                </td>
                                                 <td>{item.name}</td>
                                                 <td>{item.price}</td>
-                                                <td>{item.company}</td>
+                                                <td>
+                                                    <button type="button" className="btn-danger btn ms-2" onClick={()=>{deleteProduct(item._id)}}><FiTrash2/></button>    
+                                                </td>
                                             </tr>
                                         )
                                     })

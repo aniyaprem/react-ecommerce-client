@@ -7,8 +7,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const AddProduct = ()=>{
-    const formData = new FormData();
-    const [file, setFile] = useState([]);
+    const [file, setFile] = useState(null);
     const [loader, setLoader] = useState(false);
     const [categories, setCategories] = useState('');
     const [description, setDescription] = useState('');
@@ -30,12 +29,7 @@ const AddProduct = ()=>{
     }
 
     const uploadImage = (e)=>{
-        let newArr = [];
-        for (let i = 0; i < e.target.files.length; i++) {
-            formData.append('image[]', e.target.files[i]);
-        }
-        setFile(newArr);
-        
+        setFile(e.target.files[0]);
     }
 
     const handleChange = (e)=>{
@@ -48,17 +42,14 @@ const AddProduct = ()=>{
     }
 
     const handleSubmit = (e)=>{
-        // formData.append('image[]', file);
+        const formData = new FormData();
+        formData.append('image', file);
         formData.append('name', data.name);
         formData.append('price', data.price);
         formData.append('description', description);
         formData.append('saleprice', data.saleprice);
         e.preventDefault();
-        axios.post(`${process.env.REACT_APP_API_URL}create-product`, formData,{
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        })
+        axios.post(`${process.env.REACT_APP_API_URL}create-product`, formData)
         .then((res)=>{
             console.log(res);
         }).catch((err)=>{
@@ -107,7 +98,7 @@ const AddProduct = ()=>{
             <Card className="border-0 shadow-lg">
                 <Card.Header className="border-top-0 p-3 d-flex align-items-center justify-content-between">
                     <Card.Title className="m-0">Add Product</Card.Title>
-                    <Link to="/admin/add-product" className="btn btn-success text-capitalize">product list</Link>
+                    <Link to="/admin/products" className="btn btn-success text-capitalize">products list</Link>
                 </Card.Header>
                 <Card.Body>
                     <Form onSubmit={handleSubmit} encType="multipart/form-data">
@@ -121,7 +112,7 @@ const AddProduct = ()=>{
                             <Col xxl={6} xl={6} lg={6} md={6} sm={6} xs={12}>
                                 <Form.Group className="mb-3">
                                     <Form.Label className="text-capitalize">product images</Form.Label>
-                                    <Form.Control type="file" placeholder="Enter product name" name="image" multiple onChange={(e)=>{uploadImage(e);}}/>
+                                    <Form.Control type="file" placeholder="Enter product name" name="image" onChange={(e)=>{uploadImage(e);}}/>
                                 </Form.Group>
                             </Col>
                             <Col xxl={6} xl={6} lg={6} md={6} sm={6} xs={12}>

@@ -6,7 +6,9 @@ import 'react-quill/dist/quill.snow.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import 'react-toastify/dist/ReactToastify.css';
+import store from './store'
 import './assets/css/style.css';
+import { Provider } from 'react-redux'
 import { CookiesProvider } from 'react-cookie';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from "react-router-dom";
@@ -15,9 +17,9 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <CookiesProvider>
     <BrowserRouter>
-      {/* <React.StrictMode> */}
+      <Provider store={store}>
         <App />
-      {/* </React.StrictMode> */}
+      </Provider>
     </BrowserRouter>
   </CookiesProvider>
 );

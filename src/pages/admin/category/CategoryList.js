@@ -2,13 +2,15 @@ import { FiPlusCircle, FiEdit2, FiTrash2 } from "react-icons/fi";
 import { ToastContainer, toast } from 'react-toastify';
 import { Link, useLocation } from "react-router-dom";
 import { Card, Table, Alert } from "react-bootstrap";
+import { ThreeCircles } from  'react-loader-spinner';
 import { useEffect, useState } from 'react';
 import swal from 'sweetalert';
 import axios from 'axios';
 
 const CategoryList = ()=>{
-    const [categories, setCategories] = useState([]);
     const location = useLocation();
+    const [loader, setLoader] = useState(false);
+    const [categories, setCategories] = useState([]);
 
     const allCategory = ()=>{
         axios.get(`${process.env.REACT_APP_API_URL}category-list`)
@@ -47,6 +49,10 @@ const CategoryList = ()=>{
     }
 
     useEffect(()=>{
+        setLoader(true);
+        setTimeout(function(){
+            setLoader(false);
+        }, 1500);
         if(location.state !== null){
             toast.success(location.state.message);
             location.state = null;
@@ -55,48 +61,64 @@ const CategoryList = ()=>{
     },[])
 
     return (
-        <Card className="border-0 shadow-lg">
-            <Card.Header className="border-top-0 p-3 d-flex align-items-center justify-content-between">
-                <Card.Title className="m-0">Category List</Card.Title>
-                <Link to="/admin/add-category" className="btn btn-success text-capitalize"><FiPlusCircle/> Category</Link>
-            </Card.Header>
-            <Card.Body>
-                {
-                    categories.length>0 ? 
-                        <Table striped bordered hover>
-                            <thead>
-                                <tr>
-                                    <th>Sr No.</th>
-                                    <th>Image</th>
-                                    <th>Name</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    categories && categories.map((val, index)=>{
-                                        return (
-                                            <tr key={index}>
-                                                <td>{index+1}</td>
-                                                <td>
-                                                    <img src={`${process.env.REACT_APP_FILE_URL}/uploads/category/${val.photo}`} alt="img" style={{width:'30px', height:'30px'}} className="rounded-pill"/>
-                                                </td>
-                                                <td className="text-capitalize">{val.name}</td>
-                                                <td className="text-capitalize">
-                                                    <Link to={`/admin/edit-category/${val._id}`} className="btn btn-info bt-md text-white"><FiEdit2/></Link>
-                                                    <button type="button" className="btn-danger btn ms-2" onClick={()=>{deleteCategory(val._id)}}><FiTrash2/></button>  
-                                                </td>
-                                            </tr>
-                                        )
-                                    })
-                                }
-                            </tbody>
-                        </Table>
-                    :<Alert variant='danger'>No category found!</Alert>
-                }
-            </Card.Body>
-            <ToastContainer autoClose={10000} theme="dark" closeOnClick newestOnTop={true}/>
-        </Card>
+        <>
+            {
+                loader && <ThreeCircles
+                    height="100"
+                    width="100"
+                    color="#4fa94d"
+                    wrapperStyle={{}}
+                    wrapperClass="ajax-loader"
+                    visible={true}
+                    ariaLabel="three-circles-rotating"
+                    outerCircleColor="yellow"
+                    innerCircleColor="yellow"
+                    middleCircleColor="yellow"
+                />
+            }
+            <Card className="border-0 shadow-lg">
+                <Card.Header className="border-top-0 p-3 d-flex align-items-center justify-content-between">
+                    <Card.Title className="m-0">Category List</Card.Title>
+                    <Link to="/admin/add-category" className="btn btn-success text-capitalize"><FiPlusCircle/> Category</Link>
+                </Card.Header>
+                <Card.Body>
+                    {
+                        categories.length>0 ? 
+                            <Table striped bordered hover>
+                                <thead>
+                                    <tr>
+                                        <th>Sr No.</th>
+                                        <th>Image</th>
+                                        <th>Name</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        categories && categories.map((val, index)=>{
+                                            return (
+                                                <tr key={index}>
+                                                    <td>{index+1}</td>
+                                                    <td>
+                                                        <img src={`${process.env.REACT_APP_FILE_URL}/${val.photo}`} alt="img" style={{width:'30px', height:'30px'}} className="rounded-pill"/>
+                                                    </td>
+                                                    <td className="text-capitalize">{val.name}</td>
+                                                    <td className="text-capitalize">
+                                                        <Link to={`/admin/edit-category/${val._id}`} className="btn btn-info bt-md text-white"><FiEdit2/></Link>
+                                                        <button type="button" className="btn-danger btn ms-2" onClick={()=>{deleteCategory(val._id)}}><FiTrash2/></button>  
+                                                    </td>
+                                                </tr>
+                                            )
+                                        })
+                                    }
+                                </tbody>
+                            </Table>
+                        :<Alert variant='danger'>No category found!</Alert>
+                    }
+                </Card.Body>
+                <ToastContainer autoClose={10000} theme="dark" closeOnClick newestOnTop={true}/>
+            </Card>
+        </>
         )
 }
 

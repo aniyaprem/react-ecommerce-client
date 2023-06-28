@@ -120,3 +120,8 @@ table tr td .btn{
     justify-content: center;
     background: #1717178c;
 }
+
+.header-nav .dropdown-menu[data-bs-popper]{
+    left:unset !important;
+    right:0px;
+}

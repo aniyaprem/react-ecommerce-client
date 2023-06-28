@@ -1,12 +1,15 @@
 import { Card, Row, Form, Col, Button } from "react-bootstrap";
 import { ToastContainer, toast } from 'react-toastify';
 import { ThreeCircles } from  'react-loader-spinner';
-import { Link } from "react-router-dom";
-import ReactQuill from 'react-quill';
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from 'react';
+import { Link } from "react-router-dom";
+import { FiList } from "react-icons/fi";
+import ReactQuill from 'react-quill';
 import axios from 'axios';
 
 const AddProduct = ()=>{
+    const navigate = useNavigate();
     const [file, setFile] = useState(null);
     const [loader, setLoader] = useState(false);
     const [categories, setCategories] = useState('');
@@ -51,33 +54,36 @@ const AddProduct = ()=>{
         e.preventDefault();
         axios.post(`${process.env.REACT_APP_API_URL}create-product`, formData)
         .then((res)=>{
-            console.log(res);
+            if(res.data.success===true){
+                navigate('/admin/products', {
+                    state:{message:'Product added successfully'}
+                })
+            }
         }).catch((err)=>{
-            console.log(err);
             if(err.response.data.success===false){
                 if(err.response.data.validation!==undefined){
                     if(Object.values(err.response.data.validation).length>0){
                         let errors = err.response.data.validation;
-                        // setError(errors);
                         toast.error(errors[0]);
+                        return false;
                     }
                 }
 
                 if(err.response.data.error!==undefined){
                     toast.error(err.response.data.error);
+                    return false;
                 }
             }
         });
     }
 
     useEffect(()=>{
-        console.log(file);
         setLoader(true);
         setTimeout(function(){
             setLoader(false);
         }, 1500);
         allCategories();
-    },[file])
+    },[])
 
     return (
         <>
@@ -98,7 +104,7 @@ const AddProduct = ()=>{
             <Card className="border-0 shadow-lg">
                 <Card.Header className="border-top-0 p-3 d-flex align-items-center justify-content-between">
                     <Card.Title className="m-0">Add Product</Card.Title>
-                    <Link to="/admin/products" className="btn btn-success text-capitalize">products list</Link>
+                    <Link to="/admin/products" className="btn btn-success text-capitalize"><FiList/> products</Link>
                 </Card.Header>
                 <Card.Body>
                     <Form onSubmit={handleSubmit} encType="multipart/form-data">
